@@ -1,0 +1,29 @@
+
+name: Build C++ to EXE
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'main.cpp'
+      - '.github/workflows/build.yml'
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Compile C++
+        run: cl /EHsc /std:c++17 main.cpp /Fe:main.exe
+
+      - name: Upload EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: aplikasi-exe
+          path: main.exe
